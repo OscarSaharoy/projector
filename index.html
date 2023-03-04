@@ -1,0 +1,42 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <link href="trailviewer/css/trailviewer.css" rel="stylesheet">
+	<title>contrailkit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<canvas id="canvas"></canvas>
+
+<div id="info-box" class="hidden">
+	<p></p>
+</div>
+
+<!--
+<div id="toolbox">
+	<!- - <button id="aim"><img src="trailviewer/svg/crosshair.svg" /></button> - ->
+	<button id="plane"><img src="trailviewer/svg/plane.svg" /></button>
+	<button id="trails"><img src="trailviewer/svg/contrail.svg" /></button>
+</div>
+-->
+
+<div id="trailbox">
+	<div class="trail-label template">
+		<p> ABC123 </p>
+	</div>
+</div>
+
+<script type="module" src="trailviewer/js/trailviewer.js"></script>
+<script type="module" src="trailviewer/js/look-around.js"></script>
+<script type="module" src="trailviewer/js/raycast.js"></script>
+
+</body>
+
+</html>

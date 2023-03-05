@@ -8,12 +8,18 @@ const screen = document.querySelector( "svg#image rect#screen" );
 const point = document.querySelector( "svg#image defs circle.point" ).cloneNode(true);
 
 
-export function plotPoint( [x, y] ) {
+export function plotHomoPoint( [x, y, z], stroke="aqua" ) {
+
+	plotPoint( [x/z, y/z], stroke );
+}
+
+export function plotPoint( [x, y], stroke="aqua" ) {
 
 	const newPoint = point.cloneNode(true);
 
 	newPoint.setAttribute( "cx", `${ x}` );
 	newPoint.setAttribute( "cy", `${-y}` );
+	newPoint.setAttribute( "stroke", stroke );
 
 	image.appendChild( newPoint );
 }
@@ -49,13 +55,18 @@ new ResizeObserver( resizeImage ).observe( image );
 
 const StopException = { name: "StopException" };
 export const stop = () => { throw StopException; };
+let spacePressed = false;
+let time = 0;
 
-function drawLoop( millis ) {
+function drawLoop( millis, oldMillis ) {
 
-	clearImage();
+	if( spacePressed )
+		return requestAnimationFrame( newMillis => drawLoop(newMillis, newMillis) );
 
 	try {
-		draw( millis / 1000 );
+		time += ( millis - oldMillis ) / 1000;
+		clearImage();
+		draw( time );
 
 	} catch(error) {
 
@@ -65,7 +76,9 @@ function drawLoop( millis ) {
 		else throw error;
 	}
 
-	requestAnimationFrame( drawLoop );
+	requestAnimationFrame( newMillis => drawLoop(newMillis, millis) );
 }
-drawLoop( 0 );
+drawLoop( 0, 0 );
+
+window.addEventListener( "keyup", e => spacePressed ^= e.key == " " );
 

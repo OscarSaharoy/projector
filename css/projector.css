@@ -2,6 +2,7 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	font-family: 'Lora', serif;
 }
 
 :root {
@@ -21,8 +22,58 @@ body {
 	height: 100dvh;
 }
 
-svg#image {
+#ui-overlay {
+	padding: 1rem;
+	grid-row: 1;
+	grid-column: 1;
+	display: grid;
+	justify-self: stretch;
+	align-self: stretch;
+	max-height: 100vh;
+}
+#ui-overlay p {
+	font-size: 1.2rem;
+}
+
+#splitscreen {
+	grid-row: 1;
+	grid-column: 1;
+	display: grid;
+	justify-self: stretch;
+	align-self: stretch;
+	grid-template-columns: auto 0 auto;
+	max-height: 100vh;
+}
+
+#divider {
+	position: relative;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	cursor: move;
+	border: 0.05rem solid white;
+	touch-action: none;
+}
+#divider #click-target {
+	width: 2rem;
+	display: grid;
+	place-items: center;
+	justify-items center;
+}
+#divider img {
+	background: var(--dark);
+	width: 1rem;
+	pointer-events: none;
+	border-radius: 0.5rem;
+}
+
+#splitscreen svg {
 	justify-self: stretch;
 	align-self: stretch;
 	background: #181818;
+}
+
+.free {
+	display: none;
+	visibility: hidden;
 }

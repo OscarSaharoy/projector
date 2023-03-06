@@ -7,50 +7,50 @@ const image = document.querySelector( "svg#image" );
 const screen = document.querySelector( "svg#image rect#screen" );
 const point = document.querySelector( "svg#image defs circle.point" ).cloneNode(true);
 
+const explorer = document.querySelector( "svg#explorer" );
 
-export function plotHomoPoint( [x, y, z], stroke="aqua" ) {
 
+export const plotHomoPoint = ([x, y, z], stroke="aqua") =>
 	plotPoint( [x/z, y/z], stroke );
-}
+
+
+let freePoints = [];
 
 export function plotPoint( [x, y], stroke="aqua" ) {
 
-	const newPoint = point.cloneNode(true);
+	const madeNew = freePoints.length == 0;
+	const newPoint = freePoints.pop() || point.cloneNode(true);
 
 	newPoint.setAttribute( "cx", `${ x}` );
 	newPoint.setAttribute( "cy", `${-y}` );
 	newPoint.setAttribute( "stroke", stroke );
 
-	image.appendChild( newPoint );
+	if( madeNew ) image.appendChild( newPoint );
+	newPoint.classList.remove( "free" );
+
+	return newPoint;
 }
 
 
 function clearImage() {
 	
-	image.querySelectorAll( "circle" ).forEach( node => node.remove() );
+	freePoints = [ ...image.querySelectorAll( "circle" ) ];
+	freePoints.forEach( node => node.classList.add( "free" ) );
+	//freePoints.forEach( node => node.remove() );
 }
 
 
-export function setScreenSize( width, height ) {
+function resizeSVG( elm ) {
 
-	screen.setAttribute( "x", `${-width /2}` );
-	screen.setAttribute( "y", `${-height/2}` );
-	screen.setAttribute( "width",  `${width}`  );
-	screen.setAttribute( "height", `${height}` );
-}
-setScreenSize( 500, 500 );
-
-
-function resizeImage() {
-
-    const width  = image.clientWidth;
-    const height = image.clientHeight;
+    const width  = elm.clientWidth;
+    const height = elm.clientHeight;
 	const aspect = width / height;
 
-	image.setAttribute( "viewBox", `${-width/2} ${-height/2} ${width} ${height}` );
+	elm.setAttribute( "viewBox", `${-width/2} ${-height/2} ${width} ${height}` );
 }
 
-new ResizeObserver( resizeImage ).observe( image );
+new ResizeObserver( () => resizeSVG( image ) ).observe( image );
+new ResizeObserver( () => resizeSVG( explorer ) ).observe( explorer );
 
 
 const StopException = { name: "StopException" };

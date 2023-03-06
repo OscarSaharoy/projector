@@ -59,7 +59,7 @@ export function draw( t ) {
 
 	const P = matMatMul( K, RT );
 
-	for( const p of spherePoints ) {
+	for( const p of genSpherePoints(100 - Math.sin(t) * 50) ) {
 
 		plotHomoPoint( matVecMul( P, [...p, 1] ), "red" );
 	}
